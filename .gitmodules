@@ -1,0 +1,4 @@
+[submodule "doh-proxy"]
+    path = rust-doh
+    url = https://github.com/jedisct1/rust-doh
+    branch = master
