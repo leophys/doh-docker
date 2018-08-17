@@ -1,6 +1,4 @@
 DOH-PROXY := rust-doh
-DOH-BIN := $(DOH-PROXY)/target/debug/doh-proxy
-DOH-BIN-LOCAL := bin/doh-proxy
 IMAGE := doh-test
 CONTAINER := local-doh
 
@@ -11,11 +9,7 @@ $(DOH-PROXY):
 		git submodule update --init --recursive; \
 	fi
 
-$(DOH-BIN-LOCAL): $(DOH-PROXY)
-	cargo build --manifest-path $(DOH-PROXY)/Cargo.toml
-	cp $(DOH-BIN) bin/
-
-build: $(DOH-BIN-LOCAL)
+build:
 	docker build -t $(IMAGE) .
 
 run-detached: build
