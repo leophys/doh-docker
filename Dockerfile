@@ -28,8 +28,6 @@ COPY doh-wrapper.sh /srv/
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY doh.conf /etc/nginx/conf.d/
 COPY pass_to_doh /etc/nginx/conf.d/
-COPY localhost.pem /etc/doh/
-COPY localhost-key.pem /etc/doh/
 COPY --from=builder /src/target/debug/doh-proxy /srv/
 RUN /srv/set_log_format.sh /etc/nginx/nginx.conf
 
