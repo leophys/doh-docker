@@ -1,8 +1,8 @@
 DOH-PROXY := rust-doh
-IMAGE := doh-test
-CONTAINER := local-doh
-DOMAINS := localhost
-EMAIL := test@email.me
+IMAGE := doh-docker
+DOH_CONTAINER ?= doh-docker
+DOH_DOMAINS ?= localhost
+DOH_EMAIL ?= test@email.me
 
 $(DOH-PROXY):
 	if [ ! -d $(DOH-PROXY) ]; then \
@@ -15,27 +15,41 @@ build:
 	docker build -t $(IMAGE) .
 
 run-detached: build
+ifeq ($(DOH_DOMAINS),localhost)
+	@echo "######################################################"
+	@echo ""
+	@echo "WARNING! Default value for DOH_DOMAINS: $(DOH_DOMAINS)"
+	@echo ""
+	@echo "######################################################"
+endif
+ifeq ($(DOH_EMAIL),test@emal.me)
+	@echo "######################################################"
+	@echo ""
+	@echo "WARNING! Default value for DOH_EMAIL: $(DOH_EMAIL)"
+	@echo ""
+	@echo "######################################################"
+endif
 	docker run -p 80:80 -p 443:443 \
-		-e DOMAINS=$(DOMAINS) \
-		-e EMAIL=$(EMAIL) \
-		--name $(CONTAINER) -d $(IMAGE)
+		-e DOMAINS=$(DOH_DOMAINS) \
+		-e EMAIL=$(DOH_EMAIL) \
+		--name $(DOH_CONTAINER) -d $(IMAGE)
 
 logs:
-	docker logs -f $(CONTAINER)
+	docker logs -f $(DOH_CONTAINER)
 
 run:
 	make run-detached
 	make logs
 
 start-detached:
-	docker container start $(CONTAINER)
+	docker container start $(DOH_CONTAINER)
 
 start:
 	make start-detached
 	make logs
 
 stop:
-	docker container stop $(CONTAINER)
+	docker container stop $(DOH_CONTAINER)
 
 clean: stop
-	docker container rm $(CONTAINER)
+	docker container rm $(DOH_CONTAINER)
