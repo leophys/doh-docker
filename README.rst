@@ -57,6 +57,40 @@ No, you don't. You may yet have a VPS with an HTTP server that you may want to u
 for the purpose. In this case, I invite you to take a look at doh-proxy_ and to
 use it directly.
 
+How to use it
+=============
+
+Shallow
+-------
+
+.. code:: bash
+
+   $ docker run --restart unless-stopped \
+         -e DOMAINS="my.domain.org" \
+         -e EMAIL="me@myemail.org" \
+         --name="my-doh-resolver" \
+         leophys/doh-proxy
+
+Paranoid (preferred way)
+------------------------
+
+On the machine you want to run the resolver you'll need:
+
+- ``GNU make``
+- ``git``
+- ``docker`` (of course)
+
+Then run:
+
+.. code:: bash
+
+   $ git clone https://github.com/leophys/doh-docker
+   $ cd doh-docker
+   $ make run -e DOH_DOMAINS="my.domain.com myother.domain.com" \
+                 DOH_EMAIL="me@myemail.org"
+
+If you don't trust me (you shouldn't), **read the code**.
+
 
 Licence
 =======
@@ -64,6 +98,7 @@ Licence
 See LICENCE_.
 
 
+.. _migrate: https://blog.usejournal.com/getting-started-with-dns-over-https-on-firefox-e9b5fc865a43
 .. _doh-proxy: https://github.com/jedisct1/rust-doh
 .. _letsencrypt: https://letsencrypt.org/
 .. _nginx: https://www.nginx.com/
