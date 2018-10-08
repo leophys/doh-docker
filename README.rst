@@ -50,6 +50,14 @@ the running container:
   - ``DOMAINS`` should be a space-separated list of domains to which your
     machine is reachable (can also be a single name).
 
+Optionally you may tweak with the upstream dns resolver (i.e. **where all the queries
+are sent, in the end - you may want to really change it from the default google
+resolver - 8.8.8.8:53**) and the path to which the HTTP server responds:
+
+  - ``UPSTREAM_DNS`` should be a valid IP address plus the UDP port (defaults to
+    google's ``8.8.8.8:53``).
+  - ``DOH_PATH`` should be a path, that begins with a ``/``.
+
 Do you need it
 ==============
 

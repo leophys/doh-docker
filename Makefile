@@ -3,6 +3,8 @@ IMAGE := doh-docker
 DOH_CONTAINER ?= doh-docker
 DOH_DOMAINS ?= localhost
 DOH_EMAIL ?= test@email.me
+DOH_UPSTREAM_DNS ?= 8.8.8.8:53
+DOH_PATH ?= /doh
 
 $(DOH-PROXY):
 	if [ ! -d $(DOH-PROXY) ]; then \
@@ -32,6 +34,8 @@ endif
 	docker run -p 80:80 -p 443:443 \
 		-e DOMAINS=$(DOH_DOMAINS) \
 		-e EMAIL=$(DOH_EMAIL) \
+		-e UPSTREAM_DNS=$(DOH_UPSTREAM_DNS) \
+		-e DOH_PATH=$(DOH_PATH) \
 		--name $(DOH_CONTAINER) -d $(IMAGE)
 
 logs:
