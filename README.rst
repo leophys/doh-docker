@@ -61,7 +61,7 @@ use it directly.
 Licence
 =======
 
-See LICENCE.
+See LICENCE_.
 
 
 .. _doh-proxy: https://github.com/jedisct1/rust-doh
@@ -69,3 +69,4 @@ See LICENCE.
 .. _nginx: https://www.nginx.com/
 .. _docker: https://www.nginx.com/
 .. _supervisord: http://supervisord.org/
+.. _LICENCE: https://github.com/leophys/doh-docker/blob/master/LICENCE
