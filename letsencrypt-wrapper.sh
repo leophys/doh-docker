@@ -23,7 +23,7 @@ server{
     ssl_certificate /etc/letsencrypt/live/$1/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$1/privkey.pem;
 
-    include conf.d/pass_to_doh
+    include conf.d/pass_to_doh;
 }
 #####################################################
 EOC
