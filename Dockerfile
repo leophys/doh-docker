@@ -6,6 +6,11 @@ RUN cargo build
 
 FROM debian:stretch
 
+LABEL version="1.0.0" \
+      maintainer="Leonardo Barcaroli <leo.barcaroli@gmail.com>" \
+      description="A docker image to host one's DNS-over-HTTPS proxy"
+
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir -p /etc/doh/ \
