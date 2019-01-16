@@ -24,7 +24,7 @@ ifeq ($(DOH_DOMAINS),localhost)
 	@echo ""
 	@echo "######################################################"
 endif
-ifeq ($(DOH_EMAIL),test@emal.me)
+ifeq ($(DOH_EMAIL),test@email.me)
 	@echo "######################################################"
 	@echo ""
 	@echo "WARNING! Default value for DOH_EMAIL: $(DOH_EMAIL)"
