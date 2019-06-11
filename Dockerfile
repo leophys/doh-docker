@@ -1,8 +1,9 @@
-FROM rust as builder
+FROM rustlang/rust:nightly as builder
 
 COPY rust-doh /src/
 WORKDIR /src/
-RUN cargo build
+RUN cargo update \
+  && cargo build --release
 
 FROM debian:stretch
 
@@ -33,7 +34,7 @@ COPY doh-wrapper.sh /srv/
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY doh.conf /etc/nginx/conf.d/
 COPY pass_to_doh /etc/nginx/conf.d/
-COPY --from=builder /src/target/debug/doh-proxy /srv/
+COPY --from=builder /src/target/release/doh-proxy /srv/
 RUN /srv/set_log_format.sh /etc/nginx/nginx.conf
 
 VOLUME ["/var/www/letsencrypt", "/var/log", "/etc/letsencrypt"]
