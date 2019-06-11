@@ -5,6 +5,8 @@ DOH_DOMAINS ?= localhost
 DOH_EMAIL ?= test@email.me
 DOH_UPSTREAM_DNS ?= 8.8.8.8:53
 DOH_PATH ?= /doh
+DOH_EXT_DOM := ""
+DOH_DOCKER_OPTS := ""
 
 $(DOH-PROXY):
 	if [ ! -d $(DOH-PROXY) ]; then \
@@ -31,11 +33,18 @@ ifeq ($(DOH_EMAIL),test@email.me)
 	@echo ""
 	@echo "######################################################"
 endif
+ifneq ($(DOH_LE_VOL),"")
+	@- $(foreach DOM,$(DOH_EXT_DOM), \
+			$(eval DOH_DOCKER_OPTS += -v "/etc/letsencrypt/live/$(DOM)") \
+			$(eval DOH_DOCKER_OPTS += -v "/etc/letsencrypt/archive/$(DOM)") \
+		)
+endif
 	docker run -p 80:80 -p 443:443 \
 		-e DOMAINS=$(DOH_DOMAINS) \
 		-e EMAIL=$(DOH_EMAIL) \
 		-e UPSTREAM_DNS=$(DOH_UPSTREAM_DNS) \
 		-e DOH_PATH=$(DOH_PATH) \
+		$(DOH_DOCKER_OPTS) \
 		--name $(DOH_CONTAINER) -d $(IMAGE)
 
 logs:
