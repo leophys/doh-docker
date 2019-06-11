@@ -1,5 +1,6 @@
 DOH-PROXY := rust-doh
 IMAGE := doh-docker
+TAG := 1.1.0
 DOH_CONTAINER ?= doh-docker
 DOH_DOMAINS ?= localhost
 DOH_EMAIL ?= test@email.me
