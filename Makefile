@@ -18,6 +18,11 @@ $(DOH-PROXY):
 build:
 	docker build -t $(IMAGE) .
 
+build-release:
+	make build
+	docker tag $(IMAGE) leophys/$(IMAGE):latest
+	docker tag $(IMAGE) leophys/$(IMAGE):$(TAG)
+
 run-detached: build
 ifeq ($(DOH_DOMAINS),localhost)
 	@echo "######################################################"
