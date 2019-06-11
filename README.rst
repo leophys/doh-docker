@@ -99,6 +99,43 @@ Then run:
 
 If you don't trust me (you shouldn't), **read the code**.
 
+Note on the use of host's letsencrypt certificates
+--------------------------------------------------
+
+This image supports the use of the host's letsencrypt default path. The use case is
+when another service on the host needs the same certificates as those inside the
+container. There are two possibilities then:
+
+ 1. Another service refreshes the certificates when they expire or
+ 2. the service inside the container takes care of renewing them
+
+Both are supported. In the first case just mount the relevant paths onto the container:
+
+.. code:: bash
+
+   $ docker run --restart unless-stopped \
+         -e DOMAINS="my.domain.org" \
+         -e EMAIL="me@myemail.org" \
+         -v /etc/letsencrypt/live/my.domain.tld:/etc/letsencrypt/live/my.domain.tld \
+         -v /etc/letsencrypt/archive/my.domain.tld:/etc/letsencrypt/archive/my.domain.tld \
+         --name="my-doh-resolver" \
+         leophys/doh-proxy
+
+The relevant script with skip that domain (letsencrypt-wrapper.sh_).
+
+If the certificates has to be renewed by an hosts service, just do the same, but take
+care of touching a file named ``.doh-force`` in the ``live`` path:
+
+.. code:: bash
+
+   $ touch /etc/letsencrypt/live/my.domain.tld/.doh-force
+   $ docker run --restart unless-stopped \
+         -e DOMAINS="my.domain.org" \
+         -e EMAIL="me@myemail.org" \
+         -v /etc/letsencrypt/live/my.domain.tld:/etc/letsencrypt/live/my.domain.tld \
+         -v /etc/letsencrypt/archive/my.domain.tld:/etc/letsencrypt/archive/my.domain.tld \
+         --name="my-doh-resolver" \
+         leophys/doh-proxy
 
 Licence
 =======
